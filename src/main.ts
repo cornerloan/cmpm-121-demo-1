@@ -9,10 +9,13 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+//Step 1
 const button = document.createElement("button");
 button.innerText = "Click for 🦖";
 app.append(button);
 
+
+//Step 2
 let counter: number = 0;
 const counterReport = document.createElement("div");
 counterReport.innerText = "Total DinoNuggies: " + counter;
@@ -22,3 +25,12 @@ button.addEventListener("click", function () {
     counter++;
     counterReport.innerText = "Total DinoNuggies: " + counter;
 });
+
+
+//Step 3
+function autoClicker() {
+    counter++;
+    counterReport.innerText = "Total DinoNuggies: " + counter;
+}
+
+setInterval(autoClicker, 1000);
