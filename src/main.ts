@@ -18,7 +18,7 @@ const counterReport = document.createElement("div");
 counterReport.innerText = "Total DinoNuggies: " + counter;
 app.append(counterReport)
 
-button.addEventListener("click", function (e) {
+button.addEventListener("click", function () {
     counter++;
     counterReport.innerText = "Total DinoNuggies: " + counter;
 });
