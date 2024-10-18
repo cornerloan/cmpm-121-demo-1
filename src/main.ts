@@ -50,7 +50,7 @@ function updateCounter() {
     lastTime = currentTime;
 
     counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
-    growthText.innerText = "Current growth rate: " + growthRate.toFixed(1) + " 🦖DinoNuggies🦖/sec";
+    growthText.innerText = "Current growth rate: " + growthRate.toFixed(2) + " 🦖DinoNuggies🦖/sec";
     checkUpgradeAvailable();
     requestAnimationFrame(updateCounter);
 }
@@ -60,7 +60,7 @@ requestAnimationFrame(updateCounter);
 //Step 6
 
 const growthText = document.createElement("div");
-growthText.innerText = "Current growth rate: " + growthRate.toFixed(1) + " 🦖DinoNuggies🦖/sec";
+growthText.innerText = "Current growth rate: " + growthRate.toFixed(2) + " 🦖DinoNuggies🦖/sec";
 app.append(growthText);
 
 interface Item {
