@@ -64,46 +64,56 @@ growthText.innerText = "Current growth rate: " + growthRate.toFixed(1) + " DinoN
 app.append(growthText);
 
 const upgrade1Button = document.createElement("button");
-upgrade1Button.innerText = "Buy 0.1 Growth Per Second\nCost: 10 DinoNuggies";
+let upgrade1Price: number = 10;
+
+upgrade1Button.innerText = "Buy 0.1 Growth Per Second\nCost: " + upgrade1Price.toFixed(2) + " DinoNuggies";
 upgrade1Button.disabled = true;
 app.append(upgrade1Button);
 upgrade1Button.addEventListener("click", function() {
-    if (counter >= 10){
-        counter -= 10;
+    if (counter >= upgrade1Price){
+        counter -= upgrade1Price;
         growthRate += 0.1;
+        upgrade1Price *= 1.15;
         counterReport.innerText = "Total DinoNuggies: " + Math.trunc(counter);
+        upgrade1Button.innerText = "Buy 0.1 Growth Per Second\nCost: " + upgrade1Price.toFixed(2) + " DinoNuggies";
         checkUpgradeAvailable();
     }
 });
 
 const upgrade2Button = document.createElement("button");
-upgrade2Button.innerText = "Buy 2 Growth Per Second\nCost: 100 DinoNuggies";
+let upgrade2Price: number = 100;
+upgrade2Button.innerText = "Buy 2 Growth Per Second\nCost: " + upgrade2Price.toFixed(2) + " DinoNuggies";
 upgrade2Button.disabled = true;
 app.append(upgrade2Button);
 upgrade2Button.addEventListener("click", function() {
-    if (counter >= 100){
-        counter -= 100;
+    if (counter >= upgrade2Price){
+        counter -= upgrade2Price;
         growthRate += 2;
+        upgrade2Price *= 1.15;
         counterReport.innerText = "Total DinoNuggies: " + Math.trunc(counter);
+        upgrade2Button.innerText = "Buy 2 Growth Per Second\nCost: " + upgrade2Price.toFixed(2) + " DinoNuggies";
         checkUpgradeAvailable();
     }
 });
 
 const upgrade3Button = document.createElement("button");
-upgrade3Button.innerText = "Buy 50 Growth Per Second\nCost: 1000 DinoNuggies";
+let upgrade3Price: number = 1000;
+upgrade3Button.innerText = "Buy 50 Growth Per Second\nCost: " + upgrade3Price + " DinoNuggies";
 upgrade3Button.disabled = true;
 app.append(upgrade3Button);
 upgrade3Button.addEventListener("click", function() {
-    if (counter >= 1000){
-        counter -= 1000;
+    if (counter >= upgrade3Price){
+        counter -= upgrade3Price;
         growthRate += 50;
+        upgrade3Price *= 1.15;
         counterReport.innerText = "Total DinoNuggies: " + Math.trunc(counter);
+        upgrade3Button.innerText = "Buy 50 Growth Per Second\nCost: " + upgrade3Price + " DinoNuggies";
         checkUpgradeAvailable();
     }
 });
 
 function checkUpgradeAvailable() {
-    upgrade1Button.disabled = counter < 10;
-    upgrade2Button.disabled = counter < 100;
-    upgrade3Button.disabled = counter < 1000;
+    upgrade1Button.disabled = counter < upgrade1Price;
+    upgrade2Button.disabled = counter < upgrade2Price;
+    upgrade3Button.disabled = counter < upgrade3Price;
 }
