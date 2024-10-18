@@ -28,9 +28,27 @@ button.addEventListener("click", function () {
 
 
 //Step 3
+/**
 function autoClicker() {
     counter++;
     counterReport.innerText = "Total DinoNuggies: " + counter;
 }
 
 setInterval(autoClicker, 1000);
+*/
+
+
+//Step 4
+let lastTime = Date.now();
+
+function updateCounter() {
+    const currentTime = Date.now();
+    const deltaTime = (currentTime - lastTime) / 1000;
+    counter += deltaTime;
+    lastTime = currentTime;
+
+    counterReport.innerText = "Total DinoNuggies: " + Math.trunc(counter);
+    requestAnimationFrame(updateCounter)
+}
+
+requestAnimationFrame(updateCounter);
