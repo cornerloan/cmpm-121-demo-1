@@ -52,7 +52,7 @@ function updateCounter() {
     counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
     growthText.innerText = "Current growth rate: " + growthRate.toFixed(1) + " 🦖DinoNuggies🦖/sec";
     checkUpgradeAvailable();
-    requestAnimationFrame(updateCounter)
+    requestAnimationFrame(updateCounter);
 }
 
 requestAnimationFrame(updateCounter);
@@ -63,57 +63,45 @@ const growthText = document.createElement("div");
 growthText.innerText = "Current growth rate: " + growthRate.toFixed(1) + " 🦖DinoNuggies🦖/sec";
 app.append(growthText);
 
-const upgrade1Button = document.createElement("button");
-let upgrade1Price: number = 10;
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
 
-upgrade1Button.innerText = "Buy ⛏️Archeologist⛏️\n0.1 Growth Per Second\nCost: " + upgrade1Price.toFixed(2) + " 🦖DinoNuggies🦖";
-upgrade1Button.disabled = true;
-app.append(upgrade1Button);
-upgrade1Button.addEventListener("click", function() {
-    if (counter >= upgrade1Price){
-        counter -= upgrade1Price;
-        growthRate += 0.1;
-        upgrade1Price *= 1.15;
-        counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
-        upgrade1Button.innerText = "Buy ⛏️Archeologist⛏️\n0.1 Growth Per Second\nCost: " + upgrade1Price.toFixed(2) + " 🦖DinoNuggies🦖";
-        checkUpgradeAvailable();
-    }
-});
+const availableItems: Item[] = [
+  { name: "⛏️Archaeologist⛏️", cost: 10, rate: 0.1 },
+  { name: "👨‍🍳Dino Chef👨‍🍳", cost: 100, rate: 2 },
+  { name: "🏭DinoNuggie Factory🏭", cost: 1000, rate: 50 },
+];
 
-const upgrade2Button = document.createElement("button");
-let upgrade2Price: number = 100;
-upgrade2Button.innerText = "Buy 👨‍🍳Chef👨‍🍳\n2 Growth Per Second\nCost: " + upgrade2Price.toFixed(2) + " 🦖DinoNuggies🦖";
-upgrade2Button.disabled = true;
-app.append(upgrade2Button);
-upgrade2Button.addEventListener("click", function() {
-    if (counter >= upgrade2Price){
-        counter -= upgrade2Price;
-        growthRate += 2;
-        upgrade2Price *= 1.15;
-        counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
-        upgrade2Button.innerText = "Buy 👨‍🍳Chef👨‍🍳\n2 Growth Per Second\nCost: " + upgrade2Price.toFixed(2) + " 🦖DinoNuggies🦖";
-        checkUpgradeAvailable();
-    }
-});
+availableItems.forEach((item) => {
+  const upgradeButton = document.createElement("button");
+  let itemPrice: number = item.cost;
+  
+  upgradeButton.innerText = `Buy ${item.name}\n${item.rate} Growth Per Second\nCost: ${itemPrice.toFixed(2)} 🦖DinoNuggies🦖`;
+  upgradeButton.disabled = true;
+  app.append(upgradeButton);
 
-const upgrade3Button = document.createElement("button");
-let upgrade3Price: number = 1000;
-upgrade3Button.innerText = "Buy 🏭DinoNuggie Factory🏭\n50 Growth Per Second\nCost: " + upgrade3Price + " 🦖DinoNuggies🦖";
-upgrade3Button.disabled = true;
-app.append(upgrade3Button);
-upgrade3Button.addEventListener("click", function() {
-    if (counter >= upgrade3Price){
-        counter -= upgrade3Price;
-        growthRate += 50;
-        upgrade3Price *= 1.15;
-        counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
-        upgrade3Button.innerText = "Buy 🏭DinoNuggie Factory🏭\n50 Growth Per Second\nCost: " + upgrade3Price + " 🦖DinoNuggies🦖";
-        checkUpgradeAvailable();
+  upgradeButton.addEventListener("click", function () {
+    if (counter >= itemPrice) {
+      counter -= itemPrice;
+      growthRate += item.rate;
+      itemPrice *= 1.15; // Increase price
+      counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
+      upgradeButton.innerText = `Buy ${item.name}\n${item.rate} Growth Per Second\nCost: ${itemPrice.toFixed(2)} 🦖DinoNuggies🦖`;
+      checkUpgradeAvailable();
     }
+  });
+
+  function checkUpgradeAvailable() {
+    upgradeButton.disabled = counter < itemPrice;
+  }
 });
 
 function checkUpgradeAvailable() {
-    upgrade1Button.disabled = counter < upgrade1Price;
-    upgrade2Button.disabled = counter < upgrade2Price;
-    upgrade3Button.disabled = counter < upgrade3Price;
+  availableItems.forEach((item, index) => {
+    const upgradeButton = app.querySelectorAll("button")[index + 1]; // Adjust for the index of the upgrade buttons
+    upgradeButton.disabled = counter < item.cost;
+  });
 }
