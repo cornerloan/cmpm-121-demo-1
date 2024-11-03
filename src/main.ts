@@ -18,12 +18,17 @@ app.append(button);
 //Step 2
 let counter: number = 0;
 const counterReport = document.createElement("div");
-counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
+updateTotalNuggies();
 app.append(counterReport)
+
+function updateTotalNuggies() {
+  const totalNuggiesText = `Total 🦖DinoNuggies🦖: ${Math.trunc(counter)}`;
+  counterReport.innerText = totalNuggiesText;
+  }
 
 button.addEventListener("click", function () {
     counter++;
-    counterReport.innerText = "Total 🦖DinoNuggies🦖: " + counter;
+    updateTotalNuggies();
     checkUpgradeAvailable();
 });
 
@@ -49,7 +54,7 @@ function updateCounter() {
     counter += deltaTime * growthRate;
     lastTime = currentTime;
 
-    counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
+    updateTotalNuggies();
     growthText.innerText = "Current growth rate: " + growthRate.toFixed(2) + " 🦖DinoNuggies🦖/sec";
     checkUpgradeAvailable();
     requestAnimationFrame(updateCounter);
@@ -78,6 +83,8 @@ const availableItems: Item[] = [
   { name: "🏰DinoNuggie Jurassic Park🏰", description: "Open a theme park that produces DinoNuggies for the masses.", cost: 10000, rate: 120}
 ];
 
+const upgradeCostMultiplier = 1.15;
+
 availableItems.forEach((item) => {
   const upgradeButton = document.createElement("button");
   //let itemPrice: number = item.cost;
@@ -90,16 +97,12 @@ availableItems.forEach((item) => {
     if (counter >= item.cost) {
       counter -= item.cost;
       growthRate += item.rate;
-      item.cost *= 1.15; // Increase price
-      counterReport.innerText = "Total 🦖DinoNuggies🦖: " + Math.trunc(counter);
+      item.cost *= upgradeCostMultiplier; // Increase price
+      updateTotalNuggies();
       upgradeButton.innerText = `Buy ${item.name}\n${item.rate} Growth Per Second\nCost: ${item.cost.toFixed(2)} 🦖DinoNuggies🦖\n${item.description}`;
       checkUpgradeAvailable();
     }
   });
-
-  function checkUpgradeAvailable() {
-    upgradeButton.disabled = counter < item.cost;
-  }
 });
 
 function checkUpgradeAvailable() {
